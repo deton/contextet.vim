@@ -25,7 +25,7 @@ function! s:setet(cmd)
   let line = getline(lnum)
   " 現在行が空行の場合は、oの場合は次行、Oの場合は前行のインデントを反映
   if line == ''
-    if (a:cmd == 'o')
+    if a:cmd == 'o'
       let lnum += 1
     else
       let lnum -= 1
