@@ -13,7 +13,7 @@ scriptencoding utf-8
 "     aやs等で編集を開始して新しい行を追加した場合への対応。
 "
 " Maintainer: KIHARA Hideto <deton@m1.interq.or.jp>
-" Last Change: 2015-11-22
+" Last Change: 2015-11-25
 
 if exists('g:loaded_contextet')
   finish
@@ -21,9 +21,20 @@ endif
 let g:loaded_contextet = 1
 
 function! s:setet(cmd)
-  if getline('.')[0] == "\t"
+  let lnum = line('.')
+  let line = getline(lnum)
+  " 現在行が空行の場合は、oの場合は次行、Oの場合は前行のインデントを反映
+  if line == ''
+    if (a:cmd == 'o')
+      let lnum += 1
+    else
+      let lnum -= 1
+    endif
+    let line = getline(lnum)
+  endif
+  if line[0] == "\t"
     se noet
-  else
+  elseif line[0] == ' '
     se et
   endif
   return a:cmd
