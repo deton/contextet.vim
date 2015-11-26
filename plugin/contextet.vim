@@ -8,12 +8,8 @@ scriptencoding utf-8
 "   CTRL-T等でインデント変更するとスペースでなくタブでのインデントに
 "   なったりするので。
 "
-"   TODO:
-"     >>等の対象行に応じて'et'をセットしてから>>等を行う。
-"     aやs等で編集を開始して新しい行を追加した場合への対応。
-"
 " Maintainer: KIHARA Hideto <deton@m1.interq.or.jp>
-" Last Change: 2015-11-25
+" Last Change: 2015-11-26
 
 if exists('g:loaded_contextet')
   finish
@@ -40,8 +36,18 @@ function! s:setet(cmd)
   return a:cmd
 endfunction
 
-nnoremap <expr> <Plug>(contextet-o) <SID>setet('o')
-nnoremap <expr> <Plug>(contextet-O) <SID>setet('O')
+function! s:cmd_or_maparg(cmd)
+  if maparg(a:cmd, 'n') != ''
+    return ''
+  endif
+  return a:cmd
+endfunction
 
-nmap o <Plug>(contextet-o)
-nmap O <Plug>(contextet-O)
+function! s:mapplug()
+  execute 'nnoremap <expr> <Plug>(contextet-o) <SID>setet("' . s:cmd_or_maparg('o') . '")'
+  execute 'nnoremap <expr> <Plug>(contextet-O) <SID>setet("' . s:cmd_or_maparg('O') . '")'
+endfunction
+
+call s:mapplug()
+execute 'nmap o <Plug>(contextet-o)' . maparg('o', 'n')
+execute 'nmap O <Plug>(contextet-O)' . maparg('O', 'n')
