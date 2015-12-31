@@ -9,7 +9,7 @@ scriptencoding utf-8
 "   なったりするので。
 "
 " Maintainer: KIHARA Hideto <deton@m1.interq.or.jp>
-" Last Change: 2015-11-26
+" Last Change: 2016-01-01
 
 if exists('g:loaded_contextet')
   finish
@@ -21,7 +21,7 @@ function! s:setet(cmd)
   let line = getline(lnum)
   " 現在行が空行の場合は、oの場合は次行、Oの場合は前行のインデントを反映
   if line == ''
-    if a:cmd == 'o'
+    if a:cmd =~ '[a-z]'
       let lnum += 1
     else
       let lnum -= 1
@@ -46,8 +46,14 @@ endfunction
 function! s:mapplug()
   execute 'nnoremap <expr> <Plug>(contextet-o) <SID>setet("' . s:cmd_or_maparg('o') . '")'
   execute 'nnoremap <expr> <Plug>(contextet-O) <SID>setet("' . s:cmd_or_maparg('O') . '")'
+  execute 'nnoremap <expr> <Plug>(contextet-p) <SID>setet("' . s:cmd_or_maparg('p') . '")'
+  execute 'nnoremap <expr> <Plug>(contextet-P) <SID>setet("' . s:cmd_or_maparg('P') . '")'
 endfunction
 
 call s:mapplug()
-execute 'nmap o <Plug>(contextet-o)' . maparg('o', 'n')
-execute 'nmap O <Plug>(contextet-O)' . maparg('O', 'n')
+if !get(g:, 'contextet_no_default_key_mappings', 0)
+  execute 'nmap o <Plug>(contextet-o)' . maparg('o', 'n')
+  execute 'nmap O <Plug>(contextet-O)' . maparg('O', 'n')
+  execute 'nmap p <Plug>(contextet-p)' . maparg('p', 'n')
+  execute 'nmap P <Plug>(contextet-P)' . maparg('P', 'n')
+endif
