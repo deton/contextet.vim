@@ -46,8 +46,6 @@ endfunction
 function! s:mapplug()
   execute 'nnoremap <expr> <Plug>(contextet-o) <SID>setet("' . s:cmd_or_maparg('o') . '")'
   execute 'nnoremap <expr> <Plug>(contextet-O) <SID>setet("' . s:cmd_or_maparg('O') . '")'
-  execute 'nnoremap <expr> <Plug>(contextet->) <SID>setet("' . s:cmd_or_maparg('>') . '")'
-  execute 'nnoremap <expr> <Plug>(contextet-<) <SID>setet("' . s:cmd_or_maparg('<') . '")'
   execute 'nnoremap <expr> <Plug>(contextet-p) <SID>setet("' . s:cmd_or_maparg('p') . '")'
   execute 'nnoremap <expr> <Plug>(contextet-P) <SID>setet("' . s:cmd_or_maparg('P') . '")'
 endfunction
@@ -56,9 +54,6 @@ call s:mapplug()
 if !get(g:, 'contextet_no_default_key_mappings', 0)
   execute 'nmap o <Plug>(contextet-o)' . maparg('o', 'n')
   execute 'nmap O <Plug>(contextet-O)' . maparg('O', 'n')
-  execute 'nmap > <Plug>(contextet->)' . maparg('>', 'n')
-  execute 'nmap < <Plug>(contextet-<)' . maparg('<', 'n')
-  " 直後に=でインデントする場合向け
   execute 'nmap p <Plug>(contextet-p)' . maparg('p', 'n')
   execute 'nmap P <Plug>(contextet-P)' . maparg('P', 'n')
 endif
